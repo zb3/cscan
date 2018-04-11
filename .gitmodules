@@ -1,0 +1,3 @@
+[submodule "target-utils"]
+	path = target-utils
+	url = https://github.com/zb3/scan-ignore-utils

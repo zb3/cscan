@@ -1,0 +1,1 @@
+int gen_rand32(unsigned int mask, unsigned int max);

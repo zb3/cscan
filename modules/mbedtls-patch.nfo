@@ -1,0 +1,9 @@
+* in config.h, our patch doesn't really update the doc - see psk/rsa ref
+* we don't add anonymous to ssl_write_signature_algorithms_ext, that's optional?
+* maybe require ADH to be enabled at runtime?
+  mbedtls_ssl_conf_ciphersuites, but it'd be impractical
+
+  there's a flag for arc4
+  unsigned int arc4_disabled : 1;
+  
+ps. I hope they can't overflow out_msg in ssl_write_client_hello
