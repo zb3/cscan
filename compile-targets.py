@@ -20,7 +20,8 @@ c_output = args.c
 portspec = args.p
 invert = args.b
 
-portspec = portspec.split(',') if portspec else []
+ports_specified = bool(portspec)
+portspec = portspec.split(',') if portspec else ['80']
 
 port_weights = []
 
@@ -66,17 +67,15 @@ ranges_mask = get_binmask(total)
 ##
 
 num_ports = len(port_weights)
+pt_sum = pt_mask = 0
+port_data = []
 
-if num_ports:
-  pt_sum = pt_mask = 0
-  port_data = []
-
-  for port, pt in port_weights:
-    pt_sum += pt
-    port_data.append(port)
-    port_data.append(pt_sum-1)
+for port, pt in port_weights:
+  pt_sum += pt
+  port_data.append(port)
+  port_data.append(pt_sum-1)
  
-  pt_mask = get_binmask(pt_sum)
+pt_mask = get_binmask(pt_sum)
 
 
 if c_output:
@@ -89,18 +88,17 @@ if c_output:
     f.write('};\n')
     f.write('\n')
 
-    if num_ports:
-      f.write('struct range_cfg builtin_ports = {\n')
-      f.write('  %d, %dU, %dU,\n' % (num_ports, pt_sum-1, pt_mask))
-      f.write('  {'+','.join(map(str, port_data))+'}\n')
-      f.write('};')
+    f.write('struct range_cfg builtin_ports = {\n')
+    f.write('  %d, %dU, %dU,\n' % (num_ports, pt_sum-1, pt_mask))
+    f.write('  {'+','.join(map(str, port_data))+'}\n')
+    f.write('};')
  
 
 with open(output_name+'.csw', 'wb') as f:
   f.write(struct.pack('<III', num_ranges, total-1, ranges_mask))
   f.write(struct.pack('<%dI' % len(range_data), *range_data))
 
-if num_ports:
+if ports_specified:
   with open(output_name+'.csp', 'wb') as f:
     f.write(struct.pack('<III', num_ports, pt_sum-1, pt_mask))
     f.write(struct.pack('<%dI' % len(port_data), *port_data))
