@@ -14,7 +14,7 @@ Handling options should not be done here for clarity, only interaction between m
 #endif
 
 #ifdef HAVE_checkcookie
-#include "checkcookie.h"
+#include "cookie.h"
 #endif
 
 
