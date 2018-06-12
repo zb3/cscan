@@ -85,7 +85,6 @@ class CBA():
     state = self.state[tid]
       
     if state.cur_stream is not None:
-      print('readin stream')
       l = self.unpack('H', self.file.read(2))[0]
       
       if l:
@@ -132,7 +131,6 @@ class CBA():
         
       elif mtype == CBA_DATA:
         state.cur_stream = io.BytesIO()
-        print('data caught')
         
       elif mtype == CBA_BIT:
         state.add_event(mtype, code, True)

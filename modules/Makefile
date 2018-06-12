@@ -25,6 +25,21 @@ LIB_OBJS += $(COOKIE_OBJS)
 endif 
 
 
+ifneq ($(filter rfb,$(MODULES)),)
+RFB_OBJS = rfb.o
+rfb.o: rfb.c rfb.h
+rfb_tester: rfb_tester.o ../utils.o ../socket_utils.o ../cba.o modules.a
+TEST_PROGS += rfb_tester
+LIB_OBJS += $(RFB_OBJS)
+endif 
+
+ifneq ($(filter x11,$(MODULES)),)
+rfb.o: x11.c x11.h
+LIB_OBJS += x11.o
+endif 
+
+
+
 ifneq ($(WITH_TLS),)
 CFLAGS += -Imbedtls/include -DHAVE_TLS
 endif 

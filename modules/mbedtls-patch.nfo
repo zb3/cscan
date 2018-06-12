@@ -6,4 +6,4 @@
   there's a flag for arc4
   unsigned int arc4_disabled : 1;
   
-ps. I hope they can't overflow out_msg in ssl_write_client_hello
+ps. hope they can't overflow out_msg in ssl_write_client_hello
